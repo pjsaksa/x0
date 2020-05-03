@@ -467,15 +467,14 @@ void PosixScheduler::wakeupLoop() {
 }
 
 void PosixScheduler::waitForReadable(const Socket& s, Duration timeout) {
-  fd_set input, output;
+  fd_set input;
 
   FD_ZERO(&input);
-  FD_ZERO(&output);
   FD_SET(s, &input);
 
   struct timeval tv = timeout;
 
-  int res = select(s + 1, &input, &output, &input, &tv);
+  int res = select(s + 1, &input, nullptr, nullptr, &tv);
 
   if (res == 0) {
     throw TimeoutError{"unexpected timeout while select()ing"};
@@ -487,13 +486,12 @@ void PosixScheduler::waitForReadable(const Socket& s, Duration timeout) {
 }
 
 void PosixScheduler::waitForReadable(const Socket& s) {
-  fd_set input, output;
+  fd_set input;
 
   FD_ZERO(&input);
-  FD_ZERO(&output);
   FD_SET(s, &input);
 
-  int res = select(s + 1, &input, &output, &input, nullptr);
+  int res = select(s + 1, &input, nullptr, nullptr, nullptr);
 
   if (res == 0) {
     throw TimeoutError{"unexpected timeout while select()ing"};
@@ -505,16 +503,13 @@ void PosixScheduler::waitForReadable(const Socket& s) {
 }
 
 void PosixScheduler::waitForWritable(const Socket& s, Duration timeout) {
-  fd_set input;
-  FD_ZERO(&input);
-
   fd_set output;
   FD_ZERO(&output);
   FD_SET(s, &output);
 
   struct timeval tv = timeout;
 
-  int res = select(s + 1, &input, &output, &input, &tv);
+  int res = select(s + 1, nullptr, &output, nullptr, &tv);
 
   if (res == 0) {
     throw TimeoutError{"unexpected timeout while select()ing"};
@@ -526,14 +521,11 @@ void PosixScheduler::waitForWritable(const Socket& s, Duration timeout) {
 }
 
 void PosixScheduler::waitForWritable(const Socket& s) {
-  fd_set input;
-  FD_ZERO(&input);
-
   fd_set output;
   FD_ZERO(&output);
   FD_SET(s, &output);
 
-  int res = select(s + 1, &input, &output, &input, nullptr);
+  int res = select(s + 1, nullptr, &output, nullptr, nullptr);
 
   if (res == 0) {
     throw TimeoutError{"unexpected timeout while select()ing"};

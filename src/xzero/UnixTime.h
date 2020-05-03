@@ -26,7 +26,7 @@ class UnixTime {
   /**
    * Create a new UTC UnixTime instance with time = now
    */
-  constexpr UnixTime() : utc_micros_{0} {};
+  constexpr UnixTime() : utc_micros_{0} {}
 
   /**
    * Create a new UTC UnixTime instance

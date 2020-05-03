@@ -73,7 +73,7 @@ int main(int argc, const char* argv[]) {
   // starts the listener
   service.start();
 
-  logInfo("Start serving on port $0 ...", flags.getNumber("port"));
+  logInfo("Start serving on port {} ...", flags.getNumber("port"));
 
   // run the event loop as long as something should be watched on
   scheduler.runLoop();

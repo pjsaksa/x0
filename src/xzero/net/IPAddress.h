@@ -55,7 +55,6 @@ class IPAddress {
   IPAddress(const std::string& text, Family v);
 
   IPAddress& operator=(const std::string& value);
-  IPAddress& operator=(const IPAddress& value);
 
   bool set(const std::string& text, Family family);
 
@@ -133,18 +132,6 @@ inline IPAddress& IPAddress::operator=(const std::string& text) {
   } else {
     set(text, Family::V4);
   }
-  return *this;
-}
-
-inline IPAddress& IPAddress::operator=(const IPAddress& v) {
-  family_ = v.family_;
-#if defined(XZERO_OS_WINDOWS)
-  strncpy_s(cstr_, sizeof(cstr_), v.cstr_, sizeof(v.cstr_));
-#else
-  strncpy(cstr_, v.cstr_, sizeof(cstr_));
-#endif
-  memcpy(buf_, v.buf_, v.size());
-
   return *this;
 }
 

@@ -115,7 +115,7 @@ std::vector<T> Tokenizer<T, U>::tokenize() {
 
   while (!end()) tokens.push_back(nextToken());
 
-  return std::move(tokens);
+  return tokens;
 }
 
 template <typename T, typename U>
